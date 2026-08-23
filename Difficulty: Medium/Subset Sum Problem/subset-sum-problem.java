@@ -10,12 +10,18 @@ class Solution {
     }
     
     static boolean hasSubset(int[]arr, int sum, int i, Boolean[][]dp){
-        if(sum==0)return true;
-        if(i>=arr.length || sum<0)return false;
+        
+        if(i==arr.length){
+            if(sum==0)return true;
+            return false;
+        }
         if(dp[i][sum]!=null)return dp[i][sum];
-        if(arr[i]>sum)return dp[i][sum]=hasSubset(arr, sum, i+1, dp);
-        boolean pick=hasSubset(arr, sum-arr[i], i+1, dp);
+        
         boolean skip=hasSubset(arr, sum, i+1, dp);
+        
+        //ye line tabhi ke liye hai jab (arr[i]>=0 all i from 0 to n-1)
+        if(sum-arr[i]<0)return dp[i][sum]=skip;  
+        boolean pick=hasSubset(arr, sum-arr[i], i+1, dp);
         return dp[i][sum]= (pick || skip);
     }
 }
